@@ -505,6 +505,7 @@
                         <div style="text-align: center; margin-top: 20px;">
                             <button class="btn" id="nextQuestion" onclick="nextQuestion()" style="display: none;">Next Question</button>
                             <button class="btn" id="calculateResults" onclick="calculateResults()" style="display: none;">Calculate My Notion Level</button>
+                            <button class="btn" id="debugButton" onclick="debugAssessment()" style="background: #dc3545;">🔧 Debug (Click if Next button doesn't appear)</button>
                         </div>
                     </div>
                 </div>
@@ -799,12 +800,30 @@
             document.getElementById(tabId).classList.add('active');
         }
         
+        // Debug function to troubleshoot
+        function debugAssessment() {
+            console.log('Current question:', currentQuestion);
+            console.log('Assessment answers:', assessmentAnswers);
+            console.log('Total questions:', totalQuestions);
+            
+            // Force show the next button for testing
+            if (currentQuestion < totalQuestions - 1) {
+                document.getElementById('nextQuestion').style.display = 'inline-block';
+                alert('Debug: Forced Next Question button to appear. Current question: ' + (currentQuestion + 1));
+            } else {
+                document.getElementById('calculateResults').style.display = 'inline-block';
+                alert('Debug: Forced Calculate Results button to appear. Ready for final calculation.');
+            }
+        }
+        
         // Assessment functionality - Initialize after DOM loads
         function initializeAssessment() {
             document.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', function() {
                     const questionDiv = this.closest('.question');
                     const questionIndex = parseInt(questionDiv.dataset.question);
+                    
+                    console.log('Clicked question:', questionIndex, 'Value:', this.dataset.value);
                     
                     // Remove selected class from all options in this question
                     questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
@@ -815,11 +834,18 @@
                     // Store the answer
                     assessmentAnswers[questionIndex] = parseInt(this.dataset.value);
                     
+                    console.log('Stored answer:', assessmentAnswers[questionIndex]);
+                    console.log('Current question vs total:', currentQuestion, totalQuestions);
+                    
                     // Show next button
                     if (currentQuestion < totalQuestions - 1) {
+                        console.log('Showing next question button');
                         document.getElementById('nextQuestion').style.display = 'inline-block';
+                        document.getElementById('debugButton').style.display = 'none';
                     } else {
+                        console.log('Showing calculate results button');
                         document.getElementById('calculateResults').style.display = 'inline-block';
+                        document.getElementById('debugButton').style.display = 'none';
                     }
                 });
             });
