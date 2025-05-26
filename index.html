@@ -789,13 +789,6 @@
         let totalQuestions = 5;
         
         // Tab switching functionality
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const targetTab = this.dataset.tab;
-                switchTab(targetTab);
-            });
-        });
-        
         function switchTab(tabId) {
             // Remove active class from all tabs and panes
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -806,29 +799,31 @@
             document.getElementById(tabId).classList.add('active');
         }
         
-        // Assessment functionality
-        document.querySelectorAll('.option').forEach(option => {
-            option.addEventListener('click', function() {
-                const questionDiv = this.closest('.question');
-                const questionIndex = parseInt(questionDiv.dataset.question);
-                
-                // Remove selected class from all options in this question
-                questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-                
-                // Add selected class to clicked option
-                this.classList.add('selected');
-                
-                // Store the answer
-                assessmentAnswers[questionIndex] = parseInt(this.dataset.value);
-                
-                // Show next button
-                if (currentQuestion < totalQuestions - 1) {
-                    document.getElementById('nextQuestion').style.display = 'inline-block';
-                } else {
-                    document.getElementById('calculateResults').style.display = 'inline-block';
-                }
+        // Assessment functionality - Initialize after DOM loads
+        function initializeAssessment() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionDiv = this.closest('.question');
+                    const questionIndex = parseInt(questionDiv.dataset.question);
+                    
+                    // Remove selected class from all options in this question
+                    questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store the answer
+                    assessmentAnswers[questionIndex] = parseInt(this.dataset.value);
+                    
+                    // Show next button
+                    if (currentQuestion < totalQuestions - 1) {
+                        document.getElementById('nextQuestion').style.display = 'inline-block';
+                    } else {
+                        document.getElementById('calculateResults').style.display = 'inline-block';
+                    }
+                });
             });
-        });
+        }
         
         function nextQuestion() {
             if (currentQuestion < totalQuestions - 1) {
@@ -1852,10 +1847,80 @@ Expected productivity gain: 5+ hours per week
             `);
         }
         
-        // Initialize progress tracking
-        function updateProgress() {
-            // This will be called by checkbox changes in the challenge
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all interactive elements
+            initializeAssessment();
+            initializeEventListeners();
+            updateAssessmentProgress();
+            
+            console.log('Notion Mastery System fully loaded and interactive!');
+        });
+        
+        function updateAssessmentProgress() {
+            const currentQuestionNum = currentQuestion + 1;
+            const progress = (currentQuestionNum / totalQuestions) * 100;
+            const progressBar = document.getElementById('assessmentProgress');
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+            }
         }
+        
+        function initializeEventListeners() {
+            // Tab switching functionality
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.dataset.tab;
+                    switchTab(targetTab);
+                });
+            });
+            
+            // Learning modules functionality
+            document.querySelectorAll('[data-module]').forEach(module => {
+                module.addEventListener('click', function() {
+                    const moduleType = this.dataset.module;
+                    loadLearningModule(moduleType);
+                    this.classList.add('completed');
+                });
+            });
+        }
+        
+        // Export functionality for GitHub integration
+        function exportProgress() {
+            const progressData = {
+                currentQuestion: currentQuestion,
+                assessmentAnswers: assessmentAnswers,
+                completedModules: document.querySelectorAll('.module.completed').length,
+                timestamp: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(progressData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'notion-mastery-progress.json';
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+        
+        // Add export button to the interface
+        function addExportButton() {
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'btn btn-secondary';
+            exportBtn.textContent = '💾 Export Progress';
+            exportBtn.onclick = exportProgress;
+            exportBtn.style.position = 'fixed';
+            exportBtn.style.bottom = '20px';
+            exportBtn.style.right = '20px';
+            exportBtn.style.zIndex = '1000';
+            document.body.appendChild(exportBtn);
+        }
+        
+        // Initialize export functionality
+        setTimeout(addExportButton, 1000);
     </script>
 </body>
 </html>
