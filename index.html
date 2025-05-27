@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notion Mastery System</title>
+    <title>Notion Mastery Assessment</title>
     <style>
         * {
             margin: 0;
@@ -16,118 +16,57 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
         }
         
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .main-content {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         
-        .nav-tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
         }
         
-        .nav-tab {
-            flex: 1;
-            padding: 15px 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
         
-        .nav-tab:hover {
-            background: #e9ecef;
-        }
-        
-        .nav-tab.active {
-            background: white;
-            color: #667eea;
-        }
-        
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #667eea;
-        }
-        
-        .tab-content {
+        .content {
             padding: 30px;
-            min-height: 600px;
-        }
-        
-        .tab-pane {
-            display: none;
-        }
-        
-        .tab-pane.active {
-            display: block;
-        }
-        
-        .skill-assessment {
-            max-width: 800px;
-            margin: 0 auto;
         }
         
         .question {
             background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
         }
         
         .question h3 {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #333;
-        }
-        
-        .options {
-            display: grid;
-            gap: 10px;
+            font-size: 1.3rem;
         }
         
         .option {
-            padding: 12px 15px;
             background: white;
             border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
         
         .option:hover {
@@ -139,19 +78,20 @@
             border-color: #667eea;
             background: #667eea;
             color: white;
+            font-weight: bold;
         }
         
         .btn {
-            padding: 12px 25px;
             background: #667eea;
             color: white;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            margin: 10px 5px;
+            margin: 10px;
         }
         
         .btn:hover {
@@ -159,19 +99,11 @@
             transform: translateY(-2px);
         }
         
-        .btn-secondary {
-            background: #6c757d;
-        }
-        
-        .btn-secondary:hover {
-            background: #545b62;
-        }
-        
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: #e9ecef;
-            border-radius: 4px;
+            border-radius: 5px;
             margin: 20px 0;
             overflow: hidden;
         }
@@ -179,9 +111,9 @@
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 4px;
+            border-radius: 5px;
             transition: width 0.5s ease;
-            width: 0%;
+            width: 20%;
         }
         
         .results {
@@ -190,6 +122,7 @@
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 15px;
             margin-top: 20px;
+            display: none;
         }
         
         .score-circle {
@@ -201,7 +134,6 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            position: relative;
         }
         
         .score-inner {
@@ -221,47 +153,20 @@
             color: #667eea;
         }
         
-        .learning-path {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+        .hidden {
+            display: none;
         }
         
-        .module {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        .visible {
+            display: block;
         }
         
-        .module:hover {
-            border-color: #667eea;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
         }
         
-        .module.completed {
-            border-color: #28a745;
-            background: #f8fff9;
-        }
-        
-        .module h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .module-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 15px;
-        }
-        
-        .challenge {
+        .recommendations {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
             border-radius: 10px;
@@ -269,515 +174,95 @@
             margin: 20px 0;
         }
         
-        .challenge h4 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-        
-        .interactive-demo {
-            background: #f8f9fa;
+        .next-steps {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
-        }
-        
-        .demo-window {
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            min-height: 200px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .feature-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            transform: perspective(1000px) rotateY(0deg);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: perspective(1000px) rotateY(5deg) translateY(-10px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .integration-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .integration-item {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .integration-item:hover {
-            border-color: #667eea;
-            transform: scale(1.05);
-        }
-        
-        .priority-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .high-priority {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .medium-priority {
-            background: #ffc107;
-            color: #000;
-        }
-        
-        .low-priority {
-            background: #28a745;
-            color: white;
-        }
-        
-        .template-showcase {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .template-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        }
-        
-        .template-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-        }
-        
-        .template-body {
-            padding: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-tabs {
-                flex-wrap: wrap;
-            }
-            
-            .nav-tab {
-                flex-basis: 50%;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .container {
-                padding: 10px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Notion Mastery System</h1>
-            <p>Transform from beginner to power user in hours, not months</p>
+            <h1>🚀 Notion Mastery Assessment</h1>
+            <p>Discover your current skill level and get a personalized learning path</p>
         </div>
         
-        <div class="main-content">
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-tab="assessment">📊 Skill Assessment</button>
-                <button class="nav-tab" data-tab="learning">🎯 Learning Path</button>
-                <button class="nav-tab" data-tab="features">⚡ Power Features</button>
-                <button class="nav-tab" data-tab="templates">📝 Blogger Templates</button>
-                <button class="nav-tab" data-tab="integration">🔗 Integration Guide</button>
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
             </div>
             
-            <div class="tab-content">
-                <!-- Skill Assessment Tab -->
-                <div class="tab-pane active" id="assessment">
-                    <div class="skill-assessment">
-                        <h2>📊 Current Skill Assessment</h2>
-                        <p>Let's identify your current Notion level and create a personalized learning path.</p>
-                        
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="assessmentProgress"></div>
-                        </div>
-                        
-                        <div id="assessmentQuestions">
-                            <div class="question" data-question="0">
-                                <h3>1. How do you currently organize content in Notion?</h3>
-                                <div class="options">
-                                    <div class="option" data-value="1">Simple pages with text and headings</div>
-                                    <div class="option" data-value="2">Pages with some formatting and links</div>
-                                    <div class="option" data-value="3">Pages with embedded content and basic templates</div>
-                                    <div class="option" data-value="4">Complex page structures with databases and automations</div>
-                                </div>
-                            </div>
-                            
-                            <div class="question" data-question="1" style="display: none;">
-                                <h3>2. What's your experience with Notion databases?</h3>
-                                <div class="options">
-                                    <div class="option" data-value="1">I don't know what databases are in Notion</div>
-                                    <div class="option" data-value="2">I've seen them but never created one</div>
-                                    <div class="option" data-value="3">I've created basic tables/databases</div>
-                                    <div class="option" data-value="4">I use advanced database features (relations, formulas, automations)</div>
-                                </div>
-                            </div>
-                            
-                            <div class="question" data-question="2" style="display: none;">
-                                <h3>3. How do you handle content planning for your blog?</h3>
-                                <div class="options">
-                                    <div class="option" data-value="1">I write ideas in random documents</div>
-                                    <div class="option" data-value="2">I keep a simple list of topics</div>
-                                    <div class="option" data-value="3">I use spreadsheets or basic planning tools</div>
-                                    <div class="option" data-value="4">I have a systematic content calendar with workflows</div>
-                                </div>
-                            </div>
-                            
-                            <div class="question" data-question="3" style="display: none;">
-                                <h3>4. What's your biggest content creation bottleneck?</h3>
-                                <div class="options">
-                                    <div class="option" data-value="1">Coming up with ideas</div>
-                                    <div class="option" data-value="2">Organizing research and notes</div>
-                                    <div class="option" data-value="3">Managing publishing workflows</div>
-                                    <div class="option" data-value="4">Tracking performance and audience engagement</div>
-                                </div>
-                            </div>
-                            
-                            <div class="question" data-question="4" style="display: none;">
-                                <h3>5. How familiar are you with automation tools?</h3>
-                                <div class="options">
-                                    <div class="option" data-value="1">I do everything manually</div>
-                                    <div class="option" data-value="2">I use basic shortcuts and templates</div>
-                                    <div class="option" data-value="3">I've used tools like Zapier or IFTTT</div>
-                                    <div class="option" data-value="4">I regularly build complex automated workflows</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="results" id="assessmentResults" style="display: none;">
-                            <div class="score-circle">
-                                <div class="score-inner">
-                                    <div class="score-text" id="scoreText">0%</div>
-                                    <div>Notion Mastery</div>
-                                </div>
-                            </div>
-                            <h3 id="skillLevel">Determining your level...</h3>
-                            <p id="recommendations">Loading personalized recommendations...</p>
-                            <button class="btn" onclick="startLearningPath()">🚀 Start Your Custom Learning Path</button>
-                        </div>
-                        
-                        <div style="text-align: center; margin-top: 20px;">
-                            <button class="btn" id="nextQuestion" onclick="nextQuestion()" style="display: none;">Next Question</button>
-                            <button class="btn" id="calculateResults" onclick="calculateResults()" style="display: none;">Calculate My Notion Level</button>
-                            <button class="btn" id="debugButton" onclick="debugAssessment()" style="background: #dc3545;">🔧 Debug (Click if Next button doesn't appear)</button>
-                        </div>
-                    </div>
+            <div id="questions">
+                <div class="question" id="q1">
+                    <h3>1. How do you currently organize content in Notion?</h3>
+                    <div class="option" onclick="selectAnswer(1, 1)">Simple pages with text and headings</div>
+                    <div class="option" onclick="selectAnswer(1, 2)">Pages with some formatting and links</div>
+                    <div class="option" onclick="selectAnswer(1, 3)">Pages with embedded content and basic templates</div>
+                    <div class="option" onclick="selectAnswer(1, 4)">Complex page structures with databases and automations</div>
                 </div>
                 
-                <!-- Learning Path Tab -->
-                <div class="tab-pane" id="learning">
-                    <h2>🎯 Personalized Learning Path</h2>
-                    <p>Based on your assessment, here's your customized route to Notion mastery.</p>
-                    
-                    <div class="learning-path" id="learningModules">
-                        <div class="module" data-module="basics">
-                            <h3>🏗️ Foundation Building</h3>
-                            <div class="module-meta">
-                                <span>⏱️ 45 minutes</span>
-                                <span>📈 Beginner</span>
-                            </div>
-                            <p>Master pages, blocks, and basic organization. Build your content structure like a pro.</p>
-                            <div class="challenge">
-                                <h4>🎯 Challenge: Build Your Blog Command Center</h4>
-                                <p>Create a master workspace with proper page hierarchy and navigation.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="module" data-module="databases">
-                            <h3>🗄️ Database Mastery</h3>
-                            <div class="module-meta">
-                                <span>⏱️ 60 minutes</span>
-                                <span>📈 Intermediate</span>
-                            </div>
-                            <p>Transform from simple tables to powerful content management systems.</p>
-                            <div class="challenge">
-                                <h4>🎯 Challenge: Content Calendar Database</h4>
-                                <p>Build a complete content planning system with statuses, tags, and automation.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="module" data-module="automation">
-                            <h3>⚡ Automation & Workflows</h3>
-                            <div class="module-meta">
-                                <span>⏱️ 75 minutes</span>
-                                <span>📈 Advanced</span>
-                            </div>
-                            <p>Automate repetitive tasks and create intelligent workflows that save hours.</p>
-                            <div class="challenge">
-                                <h4>🎯 Challenge: Publishing Automation</h4>
-                                <p>Set up automated workflows for content creation to publication.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="module" data-module="integration">
-                            <h3>🔗 Integration & APIs</h3>
-                            <div class="module-meta">
-                                <span>⏱️ 90 minutes</span>
-                                <span>📈 Expert</span>
-                            </div>
-                            <p>Connect your entire tech stack and create a unified blogging ecosystem.</p>
-                            <div class="challenge">
-                                <h4>🎯 Challenge: Multi-Platform Sync</h4>
-                                <p>Connect Notion with your existing tools for seamless workflows.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="interactive-demo">
-                        <h3>🔄 Interactive Learning Module</h3>
-                        <p>Click on any module above to start hands-on learning with real-time guidance.</p>
-                        <div class="demo-window" id="demoContent">
-                            Select a learning module to begin your interactive session...
-                        </div>
-                    </div>
+                <div class="question hidden" id="q2">
+                    <h3>2. What's your experience with Notion databases?</h3>
+                    <div class="option" onclick="selectAnswer(2, 1)">I don't know what databases are in Notion</div>
+                    <div class="option" onclick="selectAnswer(2, 2)">I've seen them but never created one</div>
+                    <div class="option" onclick="selectAnswer(2, 3)">I've created basic tables/databases</div>
+                    <div class="option" onclick="selectAnswer(2, 4)">I use advanced database features (relations, formulas, automations)</div>
                 </div>
                 
-                <!-- Power Features Tab -->
-                <div class="tab-pane" id="features">
-                    <h2>⚡ Hidden Power Features</h2>
-                    <p>Unlock Notion's most powerful capabilities that 90% of users never discover.</p>
-                    
-                    <div class="feature-grid">
-                        <div class="feature-card" onclick="showFeatureDetail('formulas')">
-                            <div class="feature-icon">🧮</div>
-                            <h3>Advanced Formulas</h3>
-                            <p>Create dynamic content that updates automatically</p>
-                        </div>
-                        
-                        <div class="feature-card" onclick="showFeatureDetail('relations')">
-                            <div class="feature-icon">🔗</div>
-                            <h3>Database Relations</h3>
-                            <p>Connect different databases for powerful workflows</p>
-                        </div>
-                        
-                        <div class="feature-card" onclick="showFeatureDetail('templates')">
-                            <div class="feature-icon">📋</div>
-                            <h3>Dynamic Templates</h3>
-                            <p>Create smart templates that adapt to your needs</p>
-                        </div>
-                        
-                        <div class="feature-card" onclick="showFeatureDetail('api')">
-                            <div class="feature-icon">🔌</div>
-                            <h3>API Integration</h3>
-                            <p>Connect external tools and automate everything</p>
-                        </div>
-                        
-                        <div class="feature-card" onclick="showFeatureDetail('ai')">
-                            <div class="feature-icon">🤖</div>
-                            <h3>Notion AI Mastery</h3>
-                            <p>Leverage AI for content creation and optimization</p>
-                        </div>
-                        
-                        <div class="feature-card" onclick="showFeatureDetail('publishing')">
-                            <div class="feature-icon">📰</div>
-                            <h3>Direct Publishing</h3>
-                            <p>Publish from Notion to multiple platforms</p>
-                        </div>
-                    </div>
-                    
-                    <div class="interactive-demo">
-                        <h3 id="featureTitle">Select a Power Feature</h3>
-                        <div class="demo-window" id="featureDemo">
-                            Click on any feature card above to see detailed explanations, code examples, and step-by-step tutorials.
-                        </div>
-                    </div>
+                <div class="question hidden" id="q3">
+                    <h3>3. How do you handle content planning for your blog?</h3>
+                    <div class="option" onclick="selectAnswer(3, 1)">I write ideas in random documents</div>
+                    <div class="option" onclick="selectAnswer(3, 2)">I keep a simple list of topics</div>
+                    <div class="option" onclick="selectAnswer(3, 3)">I use spreadsheets or basic planning tools</div>
+                    <div class="option" onclick="selectAnswer(3, 4)">I have a systematic content calendar with workflows</div>
                 </div>
                 
-                <!-- Blogger Templates Tab -->
-                <div class="tab-pane" id="templates">
-                    <h2>📝 Professional Blogger Templates</h2>
-                    <p>Ready-to-use templates specifically designed for content creators who want to scale.</p>
-                    
-                    <div class="template-showcase">
-                        <div class="template-card">
-                            <div class="template-header">
-                                <h3>📅 Content Calendar Pro</h3>
-                                <p>Complete content planning system</p>
-                            </div>
-                            <div class="template-body">
-                                <ul style="list-style: none; padding: 0;">
-                                    <li>✅ Editorial calendar with scheduling</li>
-                                    <li>✅ Content status tracking</li>
-                                    <li>✅ SEO keyword planning</li>
-                                    <li>✅ Performance analytics</li>
-                                    <li>✅ Team collaboration tools</li>
-                                </ul>
-                                <button class="btn" onclick="loadTemplate('content-calendar')">Use This Template</button>
-                            </div>
-                        </div>
-                        
-                        <div class="template-card">
-                            <div class="template-header">
-                                <h3>👥 Audience Management</h3>
-                                <p>Know your readers inside and out</p>
-                            </div>
-                            <div class="template-body">
-                                <ul style="list-style: none; padding: 0;">
-                                    <li>✅ Reader persona database</li>
-                                    <li>✅ Engagement tracking</li>
-                                    <li>✅ Email list management</li>
-                                    <li>✅ Social media analytics</li>
-                                    <li>✅ Feedback collection</li>
-                                </ul>
-                                <button class="btn" onclick="loadTemplate('audience-management')">Use This Template</button>
-                            </div>
-                        </div>
-                        
-                        <div class="template-card">
-                            <div class="template-header">
-                                <h3>📊 Analytics Dashboard</h3>
-                                <p>Track what matters for growth</p>
-                            </div>
-                            <div class="template-body">
-                                <ul style="list-style: none; padding: 0;">
-                                    <li>✅ Traffic and engagement metrics</li>
-                                    <li>✅ Revenue tracking</li>
-                                    <li>✅ Goal monitoring</li>
-                                    <li>✅ Competitive analysis</li>
-                                    <li>✅ Growth projections</li>
-                                </ul>
-                                <button class="btn" onclick="loadTemplate('analytics-dashboard')">Use This Template</button>
-                            </div>
-                        </div>
-                        
-                        <div class="template-card">
-                            <div class="template-header">
-                                <h3>🚀 Publishing Workflow</h3>
-                                <p>From idea to published post</p>
-                            </div>
-                            <div class="template-body">
-                                <ul style="list-style: none; padding: 0;">
-                                    <li>✅ Research and outline templates</li>
-                                    <li>✅ Writing workflow stages</li>
-                                    <li>✅ Review and editing process</li>
-                                    <li>✅ Multi-platform publishing</li>
-                                    <li>✅ Promotion checklists</li>
-                                </ul>
-                                <button class="btn" onclick="loadTemplate('publishing-workflow')">Use This Template</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="interactive-demo">
-                        <h3 id="templateTitle">Template Preview</h3>
-                        <div class="demo-window" id="templatePreview">
-                            Select a template above to see a detailed preview and implementation guide.
-                        </div>
-                    </div>
+                <div class="question hidden" id="q4">
+                    <h3>4. What's your biggest content creation bottleneck?</h3>
+                    <div class="option" onclick="selectAnswer(4, 1)">Coming up with ideas</div>
+                    <div class="option" onclick="selectAnswer(4, 2)">Organizing research and notes</div>
+                    <div class="option" onclick="selectAnswer(4, 3)">Managing publishing workflows</div>
+                    <div class="option" onclick="selectAnswer(4, 4)">Tracking performance and audience engagement</div>
                 </div>
                 
-                <!-- Integration Guide Tab -->
-                <div class="tab-pane" id="integration">
-                    <h2>🔗 Integration Strategy</h2>
-                    <p>Connect your existing tools with Notion to create a unified blogging ecosystem.</p>
-                    
-                    <h3>Your Current Tech Stack Integration</h3>
-                    <div class="integration-list">
-                        <div class="integration-item">
-                            <h4>🎨 Canva</h4>
-                            <p>Embed designs directly in content</p>
-                            <span class="priority-badge high-priority">HIGH</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>🤖 ChatGPT/Claude</h4>
-                            <p>API integration for content generation</p>
-                            <span class="priority-badge high-priority">HIGH</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>📊 Excel</h4>
-                            <p>Import data and sync analytics</p>
-                            <span class="priority-badge medium-priority">MEDIUM</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>🎬 CapCut</h4>
-                            <p>Video content management</p>
-                            <span class="priority-badge medium-priority">MEDIUM</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>🔊 ElevenLabs</h4>
-                            <p>Audio content automation</p>
-                            <span class="priority-badge low-priority">LOW</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>🎵 Epidemic Sound</h4>
-                            <p>Music library integration</p>
-                            <span class="priority-badge low-priority">LOW</span>
-                        </div>
-                        
-                        <div class="integration-item">
-                            <h4>🐙 GitHub</h4>
-                            <p>Version control and collaboration</p>
-                            <span class="priority-badge high-priority">HIGH</span>
-                        </div>
+                <div class="question hidden" id="q5">
+                    <h3>5. How familiar are you with automation tools?</h3>
+                    <div class="option" onclick="selectAnswer(5, 1)">I do everything manually</div>
+                    <div class="option" onclick="selectAnswer(5, 2)">I use basic shortcuts and templates</div>
+                    <div class="option" onclick="selectAnswer(5, 3)">I've used tools like Zapier or IFTTT</div>
+                    <div class="option" onclick="selectAnswer(5, 4)">I regularly build complex automated workflows</div>
+                </div>
+            </div>
+            
+            <div class="button-container">
+                <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+                <button class="btn hidden" id="resultsBtn" onclick="showResults()">Calculate My Notion Level</button>
+            </div>
+            
+            <div class="results" id="results">
+                <div class="score-circle" id="scoreCircle">
+                    <div class="score-inner">
+                        <div class="score-text" id="scoreText">0%</div>
+                        <div>Notion Mastery</div>
                     </div>
-                    
-                    <div class="interactive-demo">
-                        <h3>Integration Roadmap</h3>
-                        <div class="demo-window">
-                            <strong>Phase 1 (Today):</strong> Set up GitHub sync for version control<br><br>
-                            <strong>Phase 2 (This Week):</strong> Connect Canva for seamless design workflow<br><br>
-                            <strong>Phase 3 (Next Week):</strong> Implement AI API connections for automated content<br><br>
-                            <strong>Phase 4 (Month 1):</strong> Advanced automations with Excel data sync<br><br>
-                            <strong>Phase 5 (Month 2):</strong> Video/audio content integration workflows<br><br>
-                            <button class="btn" onclick="showIntegrationGuide()">📋 Get Detailed Integration Guide</button>
-                        </div>
-                    </div>
-                    
-                    <div class="challenge">
-                        <h4>🎯 Integration Challenge: Build Your Content Hub</h4>
-                        <p>Today's goal: Create a central Notion workspace that connects with GitHub and prepares for Canva integration. This will be your content command center.</p>
-                        <button class="btn" onclick="startIntegrationChallenge()">Start Integration Challenge</button>
+                </div>
+                <h3 id="skillLevel">Your Skill Level</h3>
+                <div class="recommendations">
+                    <h4>📋 Your Personalized Recommendations:</h4>
+                    <p id="recommendations">Loading...</p>
+                </div>
+                <div class="next-steps">
+                    <h4>🎯 Next Steps:</h4>
+                    <div id="nextSteps">
+                        <p><strong>Today (Next 2 hours):</strong></p>
+                        <ul id="todaySteps"></ul>
+                        <p><strong>This Week:</strong></p>
+                        <ul id="weekSteps"></ul>
+                        <p><strong>This Month:</strong></p>
+                        <ul id="monthSteps"></ul>
                     </div>
                 </div>
             </div>
@@ -785,1168 +270,170 @@
     </div>
 
     <script>
-        let currentQuestion = 0;
-        let assessmentAnswers = [];
-        let totalQuestions = 5;
+        let currentQuestion = 1;
+        let answers = {};
+        const totalQuestions = 5;
         
-        // Tab switching functionality
-        function switchTab(tabId) {
-            // Remove active class from all tabs and panes
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        function selectAnswer(questionNum, value) {
+            // Store the answer
+            answers[questionNum] = value;
             
-            // Add active class to clicked tab and corresponding pane
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        }
-        
-        // Debug function to troubleshoot
-        function debugAssessment() {
-            console.log('Current question:', currentQuestion);
-            console.log('Assessment answers:', assessmentAnswers);
-            console.log('Total questions:', totalQuestions);
+            // Remove selected class from all options in current question
+            const currentQ = document.getElementById(`q${questionNum}`);
+            currentQ.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
             
-            // Force show the next button for testing
-            if (currentQuestion < totalQuestions - 1) {
-                document.getElementById('nextQuestion').style.display = 'inline-block';
-                alert('Debug: Forced Next Question button to appear. Current question: ' + (currentQuestion + 1));
+            // Add selected class to clicked option
+            event.target.classList.add('selected');
+            
+            // Show appropriate button
+            if (currentQuestion < totalQuestions) {
+                document.getElementById('nextBtn').classList.remove('hidden');
             } else {
-                document.getElementById('calculateResults').style.display = 'inline-block';
-                alert('Debug: Forced Calculate Results button to appear. Ready for final calculation.');
+                document.getElementById('resultsBtn').classList.remove('hidden');
             }
-        }
-        
-        // Assessment functionality - Initialize after DOM loads
-        function initializeAssessment() {
-            document.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const questionDiv = this.closest('.question');
-                    const questionIndex = parseInt(questionDiv.dataset.question);
-                    
-                    console.log('Clicked question:', questionIndex, 'Value:', this.dataset.value);
-                    
-                    // Remove selected class from all options in this question
-                    questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Add selected class to clicked option
-                    this.classList.add('selected');
-                    
-                    // Store the answer
-                    assessmentAnswers[questionIndex] = parseInt(this.dataset.value);
-                    
-                    console.log('Stored answer:', assessmentAnswers[questionIndex]);
-                    console.log('Current question vs total:', currentQuestion, totalQuestions);
-                    
-                    // Show next button
-                    if (currentQuestion < totalQuestions - 1) {
-                        console.log('Showing next question button');
-                        document.getElementById('nextQuestion').style.display = 'inline-block';
-                        document.getElementById('debugButton').style.display = 'none';
-                    } else {
-                        console.log('Showing calculate results button');
-                        document.getElementById('calculateResults').style.display = 'inline-block';
-                        document.getElementById('debugButton').style.display = 'none';
-                    }
-                });
-            });
+            
+            console.log(`Question ${questionNum}: Selected ${value}`);
         }
         
         function nextQuestion() {
-            if (currentQuestion < totalQuestions - 1) {
-                // Hide current question
-                document.querySelector(`[data-question="${currentQuestion}"]`).style.display = 'none';
-                
-                // Show next question
-                currentQuestion++;
-                document.querySelector(`[data-question="${currentQuestion}"]`).style.display = 'block';
-                
-                // Update progress bar
-                const progress = ((currentQuestion + 1) / totalQuestions) * 100;
-                document.getElementById('assessmentProgress').style.width = progress + '%';
-                
-                // Hide next button
-                document.getElementById('nextQuestion').style.display = 'none';
-                
-                // Show calculate results button if this is the last question
-                if (currentQuestion === totalQuestions - 1) {
-                    document.getElementById('calculateResults').style.display = 'inline-block';
-                }
-            }
+            // Hide current question
+            document.getElementById(`q${currentQuestion}`).classList.add('hidden');
+            
+            // Show next question
+            currentQuestion++;
+            document.getElementById(`q${currentQuestion}`).classList.remove('hidden');
+            
+            // Update progress bar
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Hide next button
+            document.getElementById('nextBtn').classList.add('hidden');
+            
+            console.log(`Now on question ${currentQuestion}`);
         }
         
-        function calculateResults() {
+        function showResults() {
             // Hide questions
-            document.getElementById('assessmentQuestions').style.display = 'none';
-            document.getElementById('nextQuestion').style.display = 'none';
-            document.getElementById('calculateResults').style.display = 'none';
+            document.getElementById('questions').style.display = 'none';
+            document.getElementById('resultsBtn').classList.add('hidden');
             
             // Calculate score
             const totalPossible = totalQuestions * 4;
-            const userScore = assessmentAnswers.reduce((sum, answer) => sum + answer, 0);
+            const userScore = Object.values(answers).reduce((sum, answer) => sum + answer, 0);
             const percentage = Math.round((userScore / totalPossible) * 100);
             
             // Update progress bar to 100%
-            document.getElementById('assessmentProgress').style.width = '100%';
+            document.getElementById('progressBar').style.width = '100%';
             
             // Show results
-            document.getElementById('assessmentResults').style.display = 'block';
+            document.getElementById('results').style.display = 'block';
             document.getElementById('scoreText').textContent = percentage + '%';
             
+            // Update score circle
+            setTimeout(() => {
+                document.getElementById('scoreCircle').style.background = 
+                    `conic-gradient(#667eea 0deg, #764ba2 ${percentage * 3.6}deg, #e9ecef ${percentage * 3.6}deg)`;
+            }, 500);
+            
             // Determine skill level and recommendations
-            let skillLevel, recommendations;
+            let skillLevel, recommendations, todaySteps, weekSteps, monthSteps;
+            
             if (percentage <= 25) {
                 skillLevel = "🌱 Notion Novice";
-                recommendations = "Perfect! You're exactly where most users start. Focus on Foundation Building and Database Mastery modules. You'll see dramatic improvements quickly.";
+                recommendations = "Perfect starting point! You're using Notion like most beginners. Focus on learning databases and basic automation to unlock 80% more productivity.";
+                todaySteps = [
+                    "Create your first database in Notion",
+                    "Set up a simple content calendar",
+                    "Learn 5 keyboard shortcuts"
+                ];
+                weekSteps = [
+                    "Build a complete blog content workflow",
+                    "Set up GitHub integration for version control",
+                    "Create 3 reusable templates"
+                ];
+                monthSteps = [
+                    "Implement advanced formulas and relations",
+                    "Build automated publishing workflow",
+                    "Connect your entire tech stack to Notion"
+                ];
             } else if (percentage <= 50) {
                 skillLevel = "🚀 Rising User";
-                recommendations = "Great foundation! Skip to Database Mastery and focus heavily on Automation & Workflows. You're ready for the intermediate challenges.";
+                recommendations = "Great foundation! You understand Notion basics. Focus on databases, automation, and integrations to become a power user.";
+                todaySteps = [
+                    "Create a database with relations",
+                    "Set up your first automation",
+                    "Build a content template library"
+                ];
+                weekSteps = [
+                    "Implement advanced database views",
+                    "Connect external tools via API",
+                    "Create automated workflows"
+                ];
+                monthSteps = [
+                    "Build complex multi-database systems",
+                    "Implement advanced automations",
+                    "Become the Notion expert in your network"
+                ];
             } else if (percentage <= 75) {
                 skillLevel = "⚡ Power User";
-                recommendations = "Impressive! Focus on Integration & APIs and advanced automation. You're ready to build sophisticated blogging workflows.";
+                recommendations = "Impressive skills! You're already using advanced features. Focus on optimization, integrations, and building systems for scale.";
+                todaySteps = [
+                    "Optimize your current database setup",
+                    "Build one advanced automation",
+                    "Document your best practices"
+                ];
+                weekSteps = [
+                    "Create a comprehensive integration strategy",
+                    "Build templates for team collaboration",
+                    "Implement advanced API connections"
+                ];
+                monthSteps = [
+                    "Become a Notion consultant/trainer",
+                    "Build and sell Notion templates",
+                    "Create content about Notion mastery"
+                ];
             } else {
                 skillLevel = "🏆 Notion Master";
-                recommendations = "Outstanding! You might know more than most. Focus on the blogger-specific templates and advanced integrations to optimize your content workflow.";
+                recommendations = "Outstanding! You're in the top 5% of Notion users. Focus on teaching others, building complex systems, and pushing the boundaries.";
+                todaySteps = [
+                    "Share your expertise with others",
+                    "Build an advanced automation",
+                    "Document a case study"
+                ];
+                weekSteps = [
+                    "Create educational content",
+                    "Build templates for your industry",
+                    "Mentor other Notion users"
+                ];
+                monthSteps = [
+                    "Launch a Notion consulting business",
+                    "Create and sell advanced templates",
+                    "Speak at conferences about productivity"
+                ];
             }
             
             document.getElementById('skillLevel').textContent = skillLevel;
             document.getElementById('recommendations').textContent = recommendations;
             
-            // Animate score circle
-            setTimeout(() => {
-                document.querySelector('.score-circle').style.background = 
-                    `conic-gradient(#667eea 0deg, #764ba2 ${percentage * 3.6}deg, #e9ecef ${percentage * 3.6}deg)`;
-            }, 500);
-        }
-        
-        function startLearningPath() {
-            switchTab('learning');
-        }
-        
-        // Learning modules functionality
-        document.querySelectorAll('[data-module]').forEach(module => {
-            module.addEventListener('click', function() {
-                const moduleType = this.dataset.module;
-                loadLearningModule(moduleType);
-                this.classList.add('completed');
-            });
-        });
-        
-        function loadLearningModule(moduleType) {
-            const demoContent = document.getElementById('demoContent');
+            // Populate action steps
+            const todayList = document.getElementById('todaySteps');
+            const weekList = document.getElementById('weekSteps');
+            const monthList = document.getElementById('monthSteps');
             
-            const moduleContent = {
-                'basics': `
-<h4>🏗️ Foundation Building Module</h4>
-
-<strong>Step 1: Master the Block System</strong>
-• Everything in Notion is a "block" - text, images, databases, etc.
-• Type "/" to see all available blocks
-• Drag blocks to reorder, click "+" to add new blocks
-
-<strong>Step 2: Create Your Blog Workspace Structure</strong>
-📁 Blog Hub (Main Page)
-├── 📝 Content Ideas
-├── 📅 Editorial Calendar  
-├── 📊 Analytics & Performance
-├── 👥 Audience Research
-└── 🔧 Resources & Tools
-
-<strong>Hands-On Challenge:</strong>
-1. Create a new page called "Blog Command Center"
-2. Add the folder structure above using the "/" menu
-3. Link pages together using @ mentions
-4. Add cover images and icons to each page
-
-<strong>Pro Tips:</strong>
-• Use templates to speed up page creation
-• Master keyboard shortcuts: Cmd/Ctrl + N for new page
-• Create a consistent visual system with icons and covers
-
-⚡ Time to Complete: 45 minutes
-🎯 You'll Know You've Mastered This When: You can quickly navigate and organize content without thinking about it.
-                `,
-                
-                'databases': `
-<h4>🗄️ Database Mastery Module</h4>
-
-<strong>Why Databases = Game Changer for Bloggers</strong>
-Think of databases as super-powered spreadsheets that can display as calendars, kanban boards, galleries, and more.
-
-<strong>Step 1: Create Your First Content Database</strong>
-1. Type "/database" and select "Table"
-2. Add these properties:
-   • Title (default)
-   • Status (Select: Ideas, Research, Writing, Review, Published)
-   • Publish Date (Date)
-   • Category (Multi-select: Tech, Lifestyle, Business, etc.)
-   • SEO Score (Number 1-10)
-   • Performance (Formula)
-
-<strong>Step 2: Master Database Views</strong>
-• Table View: Traditional spreadsheet
-• Calendar View: See publish dates visually
-• Board View: Kanban-style status tracking
-• Gallery View: Visual content preview
-
-<strong>Advanced Database Magic:</strong>
-• Relations: Link to other databases (Authors, Categories, etc.)
-• Rollups: Calculate data from related databases
-• Filters: Show only relevant content
-• Sorts: Organize automatically
-
-<strong>Hands-On Challenge: Build Content Calendar Database</strong>
-1. Create "Content Calendar" database
-2. Add all properties mentioned above
-3. Create different views for different purposes
-4. Add 10 sample blog post entries
-5. Set up filters to show "This Week's Content"
-
-⚡ Time to Complete: 60 minutes
-🎯 Mastery Indicator: You can switch between views and find any content in seconds.
-                `,
-                
-                'automation': `
-<h4>⚡ Automation & Workflows Module</h4>
-
-<strong>Notion's Secret Weapon: Automations</strong>
-Automate repetitive tasks so you can focus on creating great content.
-
-<strong>Step 1: Database Automations</strong>
-• Trigger: When property changes
-• Action: Update other properties, create pages, send notifications
-
-<strong>Example: Auto-Publishing Workflow</strong>
-Trigger: Status changes to "Published"
-Actions: 
-• Set publish date to today
-• Move to "Published" board
-• Create promotion checklist
-• Send team notification
-
-<strong>Step 2: Template Automations</strong>
-• Create smart templates that auto-populate
-• Use formulas for dynamic content
-• Set up recurring content templates
-
-<strong>Step 3: External Automations (Zapier/Make)</strong>
-• Auto-post to social media when published
-• Sync with email marketing tools
-• Update analytics automatically
-
-<strong>Advanced Formula Examples:</strong>
-
-Auto SEO Score Calculation:
-if(contains(prop("Title"), "SEO"), 8, 
-  if(length(prop("Title")) > 60, 3, 
-    if(length(prop("Title")) > 30, 7, 5)))
-
-Auto Status Updates:
-if(prop("Publish Date") < now(), "Published", 
-  if(prop("Publish Date") < dateAdd(now(), 7, "days"), "Ready", "Draft"))
-
-<strong>Hands-On Challenge: Publishing Automation</strong>
-1. Add automation to your Content Database
-2. Create template for new blog posts
-3. Set up status-based workflows
-4. Test with sample content
-
-⚡ Time to Complete: 75 minutes
-🎯 Mastery Indicator: Your content moves through stages automatically with minimal manual intervention.
-                `,
-                
-                'integration': `
-<h4>🔗 Integration & APIs Module</h4>
-
-<strong>Connect Your Entire Tech Stack</strong>
-Transform Notion into the hub that connects all your tools.
-
-<strong>Step 1: GitHub Integration (Your Priority)</strong>
-• Sync content for version control
-• Collaborate with developers/editors
-• Track changes and revisions
-• Backup your content automatically
-
-GitHub Setup:
-1. Go to Settings → Connections
-2. Add GitHub integration
-3. Connect your repositories
-4. Set up sync rules for your content
-
-<strong>Step 2: Canva Integration Strategy</strong>
-• Embed Canva designs directly in Notion
-• Create design request workflows
-• Track visual asset status
-• Organize brand assets
-
-<strong>Step 3: AI Tool Integration</strong>
-ChatGPT/Claude API Integration:
-• Auto-generate content outlines
-• Create social media snippets
-• SEO optimization suggestions
-• Content ideation workflows
-
-<strong>Step 4: Analytics Integration</strong>
-• Google Analytics data import
-• Social media metrics sync
-• Email marketing stats
-• Revenue tracking integration
-
-<strong>Advanced Integration Examples:</strong>
-
-Notion API for Custom Solutions:
-• Create custom dashboards
-• Build content distribution tools
-• Automate cross-platform publishing
-• Generate reports automatically
-
-<strong>Hands-On Challenge: Multi-Platform Hub</strong>
-1. Set up GitHub connection
-2. Create Canva workflow database
-3. Build AI integration for content ideas
-4. Test end-to-end workflow
-
-⚡ Time to Complete: 90 minutes
-🎯 Mastery Indicator: You can publish content to multiple platforms from one Notion workspace.
-                `
-            };
+            todayList.innerHTML = todaySteps.map(step => `<li>${step}</li>`).join('');
+            weekList.innerHTML = weekSteps.map(step => `<li>${step}</li>`).join('');
+            monthList.innerHTML = monthSteps.map(step => `<li>${step}</li>`).join('');
             
-            demoContent.innerHTML = moduleContent[moduleType] || 'Module content loading...';
-        }
-        
-        // Feature details functionality
-        function showFeatureDetail(feature) {
-            const featureTitle = document.getElementById('featureTitle');
-            const featureDemo = document.getElementById('featureDemo');
-            
-            const featureContent = {
-                'formulas': `
-<h4>🧮 Advanced Formulas Mastery</h4>
-
-<strong>Essential Formulas for Bloggers:</strong>
-
-<strong>1. Content Performance Score</strong>
-if(prop("Views") > 1000, "🔥 Viral", 
-  if(prop("Views") > 500, "📈 Growing", 
-    if(prop("Views") > 100, "👍 Good", "📊 New")))
-
-<strong>2. Auto Reading Time Calculator</strong>
-ceil(length(prop("Content")) / 200) + " min read"
-
-<strong>3. SEO Optimization Score</strong>
-(if(length(prop("Title")) <= 60, 2, 0) + 
- if(length(prop("Meta Description")) <= 160, 2, 0) + 
- if(contains(prop("Content"), prop("Focus Keyword")), 2, 0)) * 10 / 6
-
-<strong>4. Content Freshness Indicator</strong>
-if(dateBetween(now(), prop("Last Updated"), "days") > 365, "🔴 Needs Update",
-  if(dateBetween(now(), prop("Last Updated"), "days") > 180, "🟡 Review Soon", 
-    "🟢 Fresh"))
-
-<strong>5. Revenue Per Post Calculator</strong>
-prop("Revenue Generated") / prop("Total Posts This Month")
-
-<strong>Hands-On Practice:</strong>
-• Add these formulas to your content database
-• Test with sample data
-• Customize for your specific metrics
-                `,
-                
-                'relations': `
-<h4>🔗 Database Relations Power</h4>
-
-<strong>Build Connected Content Systems:</strong>
-
-<strong>Database Structure for Bloggers:</strong>
-📝 Content Database (Main)
-👥 Authors Database 
-🏷️ Categories Database
-📊 Analytics Database
-💰 Revenue Database
-
-<strong>Relation Examples:</strong>
-
-<strong>1. Content → Categories (Many-to-Many)</strong>
-• One post can have multiple categories
-• One category contains multiple posts
-• Rollup: Count posts per category
-
-<strong>2. Content → Authors (Many-to-One)</strong>
-• Multiple posts by one author
-• Rollup: Author's total views, engagement
-
-<strong>3. Content → Analytics (One-to-One)</strong>
-• Each post has detailed analytics
-• Track performance over time
-
-<strong>Advanced Relation Formulas:</strong>
-
-Author Performance Score:
-sum(prop("Related Posts").prop("Views")) / 
-length(prop("Related Posts"))
-
-Category ROI Calculation:
-sum(prop("Posts in Category").prop("Revenue")) / 
-length(prop("Posts in Category"))
-
-<strong>Hands-On Challenge:</strong>
-1. Create Authors and Categories databases
-2. Link to your Content database
-3. Set up rollup calculations
-4. Build performance dashboards
-                `,
-                
-                'templates': `
-<h4>📋 Dynamic Templates System</h4>
-
-<strong>Smart Templates That Adapt:</strong>
-
-<strong>1. Blog Post Template</strong>
-Auto-includes:
-• Current date as publish date
-• Author from user profile
-• SEO checklist based on content type
-• Social media snippets
-• Performance tracking setup
-
-<strong>2. Content Series Template</strong>
-• Automatically numbers posts in series
-• Creates navigation between posts
-• Tracks series completion
-• Generates series overview page
-
-<strong>3. Client Work Template</strong>
-• Project timeline with milestones
-• Budget and invoice tracking
-• Asset organization
-• Communication log
-
-<strong>Template Automation Examples:</strong>
-
-Auto-populate based on content type:
-if(prop("Type") == "Tutorial", 
-  "Step-by-step guide template with screenshots",
-  if(prop("Type") == "Review", 
-    "Product review template with pros/cons", 
-    "Standard blog post template"))
-
-Dynamic checklist generation:
-if(prop("Content Type") == "SEO", 
-  ["Keyword research", "Meta description", "Alt text"], 
-  ["Spell check", "Grammar check", "Readability"])
-
-<strong>Build Your Template Library:</strong>
-1. Create master templates for each content type
-2. Add automation to populate based on selections
-3. Include checklists and workflows
-4. Test and refine based on usage
-                `,
-                
-                'api': `
-<h4>🔌 API Integration Mastery</h4>
-
-<strong>Connect Everything to Notion:</strong>
-
-<strong>1. Notion API Basics</strong>
-• Create integrations in settings
-• Get your API token
-• Test with simple requests
-• Build custom automations
-
-<strong>2. Essential API Connections for Bloggers:</strong>
-
-<strong>Google Analytics API:</strong>
-• Auto-import page views, bounce rate
-• Track top-performing content
-• Monitor traffic sources
-• Generate weekly reports
-
-<strong>Social Media APIs:</strong>
-• Auto-post when content published
-• Track engagement metrics
-• Schedule social campaigns
-• Monitor brand mentions
-
-<strong>Email Marketing APIs:</strong>
-• Sync subscriber data
-• Track campaign performance
-• Automate email sequences
-• Segment audiences
-
-<strong>3. Custom Automation Examples:</strong>
-
-Python script for Google Analytics:
-```python
-import requests
-import json
-
-notion_token = "your_token"
-database_id = "your_database_id"
-
-# Get GA data and update Notion
-def update_notion_analytics():
-    # Fetch GA data
-    # Process and format
-    # Update Notion database
-```
-
-<strong>4. No-Code API Tools:</strong>
-• Zapier integrations
-• Make (formerly Integromat)
-• Automate.io
-• Microsoft Power Automate
-
-<strong>Advanced Integration Challenge:</strong>
-1. Set up Google Analytics connection
-2. Create social media auto-posting
-3. Build email list sync
-4. Test end-to-end automation
-                `,
-                
-                'ai': `
-<h4>🤖 Notion AI Mastery</h4>
-
-<strong>Maximize AI for Content Creation:</strong>
-
-<strong>1. Content Generation Workflows</strong>
-• Blog post outlines from keywords
-• Social media content variations
-• Email sequences
-• SEO meta descriptions
-
-<strong>2. AI Prompt Engineering for Bloggers</strong>
-
-<strong>Content Ideation Prompt:</strong>
-"Generate 10 blog post ideas about [topic] for [audience]. Include:
-- Engaging headlines
-- Brief descriptions
-- Target keywords
-- Estimated difficulty level"
-
-<strong>SEO Optimization Prompt:</strong>
-"Optimize this blog post title for SEO:
-- Target keyword: [keyword]
-- Keep under 60 characters
-- Make it engaging and clickable
-- Include power words"
-
-<strong>3. AI-Powered Database Automations</strong>
-• Auto-generate content summaries
-• Create social media snippets
-• Write meta descriptions
-• Generate tag suggestions
-
-<strong>4. Advanced AI Integrations</strong>
-
-Custom AI Workflows:
-• Content analysis and scoring
-• Competitor content analysis
-• Trend identification
-• Performance predictions
-
-<strong>AI Quality Control:</strong>
-• Set up review processes
-• Create consistency checks
-• Monitor AI output quality
-• Refine prompts based on results
-
-<strong>Hands-On AI Challenge:</strong>
-1. Set up AI-powered content templates
-2. Create automated social media generation
-3. Build SEO optimization workflows
-4. Test and refine AI prompts
-                `,
-                
-                'publishing': `
-<h4>📰 Direct Publishing Mastery</h4>
-
-<strong>Publish Everywhere from Notion:</strong>
-
-<strong>1. Notion Sites Setup</strong>
-• Convert pages to public websites
-• Custom domains and branding
-• SEO optimization
-• Analytics integration
-
-<strong>2. Multi-Platform Publishing</strong>
-
-<strong>Medium Integration:</strong>
-• Auto-publish to Medium
-• Cross-post optimization
-• Canonical URL management
-• Engagement tracking
-
-<strong>Substack Alternative Strategy:</strong>
-• Use Notion for content creation
-• Export to email platforms
-• Maintain subscriber lists
-• Track newsletter performance
-
-<strong>3. Advanced Publishing Workflows</strong>
-
-Content Distribution Checklist:
-□ Publish to main blog
-□ Cross-post to Medium  
-□ Create LinkedIn article
-□ Generate Twitter thread
-□ Update email newsletter
-□ Share in relevant communities
-
-<strong>4. SEO and Performance Optimization</strong>
-• Meta tag management
-• Image optimization
-• Internal linking strategy
-• Performance monitoring
-
-<strong>Publishing Automation Examples:</strong>
-
-Auto-social media posting:
-When status = "Published"
-→ Generate social snippets
-→ Schedule across platforms
-→ Track engagement
-→ Update analytics
-
-<strong>Hands-On Publishing Challenge:</strong>
-1. Set up Notion Sites for your blog
-2. Create multi-platform publishing workflow
-3. Automate social media distribution
-4. Track cross-platform performance
-                `
-            };
-            
-            featureTitle.textContent = `⚡ ${feature.charAt(0).toUpperCase() + feature.slice(1)} Mastery`;
-            featureDemo.innerHTML = featureContent[feature] || 'Feature details loading...';
-        }
-        
-        // Template loading functionality
-        function loadTemplate(templateType) {
-            const templateTitle = document.getElementById('templateTitle');
-            const templatePreview = document.getElementById('templatePreview');
-            
-            const templates = {
-                'content-calendar': `
-<h4>📅 Content Calendar Pro Template</h4>
-
-<strong>Database Structure:</strong>
-┌─────────────────────────────────────────────────────┐
-│ Content Calendar Database                           │
-├─────────────────────────────────────────────────────┤
-│ 📝 Title (Title)                                   │
-│ 📊 Status (Select): Ideas → Research → Writing →   │
-│         Review → Scheduled → Published              │
-│ 📅 Publish Date (Date)                            │
-│ 🏷️ Category (Multi-select)                        │
-│ 👤 Author (Person)                                │
-│ 📈 Priority (Select): Low, Medium, High, Urgent   │
-│ 🎯 Target Keywords (Multi-select)                 │
-│ 📱 Social Platforms (Multi-select)                │
-│ 📊 Performance Score (Formula)                    │
-│ 💰 Revenue Goal (Number)                          │
-│ ✅ SEO Checklist (Checkbox)                       │
-│ 📝 Notes (Rich Text)                              │
-└─────────────────────────────────────────────────────┘
-
-<strong>Pre-built Views:</strong>
-• 📅 Calendar View: Visual publishing schedule
-• 📊 Status Board: Kanban workflow
-• 📈 Performance Tracker: Analytics view
-• 🎯 This Week: Filtered current tasks
-• 📱 Social Media: Cross-platform planning
-
-<strong>Automation Examples:</strong>
-• Auto-set publish date when status = "Scheduled" 
-• Generate social media checklist when published
-• Calculate performance score from engagement data
-• Send reminders for overdue content
-
-<strong>To Implement:</strong>
-1. Copy database structure above
-2. Create all views mentioned
-3. Set up automations
-4. Populate with your content pipeline
-                `,
-                
-                'audience-management': `
-<h4>👥 Audience Management Template</h4>
-
-<strong>Reader Personas Database:</strong>
-┌─────────────────────────────────────────────────────┐
-│ 👤 Name (Title)                                    │
-│ 🎯 Age Range (Select)                             │
-│ 💼 Profession (Multi-select)                      │
-│ 🎨 Interests (Multi-select)                       │
-│ 📱 Preferred Platforms (Multi-select)             │
-│ 💰 Income Level (Select)                          │
-│ 🎓 Education (Select)                             │
-│ 😊 Pain Points (Rich Text)                        │
-│ 🎯 Goals (Rich Text)                              │
-│ 📊 Content Preferences (Multi-select)             │
-└─────────────────────────────────────────────────────┘
-
-<strong>Engagement Tracking Database:</strong>
-┌─────────────────────────────────────────────────────┐
-│ 📝 Content Title (Relation to Content)            │
-│ 👀 Views (Number)                                 │
-│ 💬 Comments (Number)                              │
-│ ❤️ Likes/Reactions (Number)                       │
-│ 📤 Shares (Number)                                │
-│ ⏱️ Time on Page (Number)                          │
-│ 📈 Engagement Rate (Formula)                      │
-│ 📅 Date (Date)                                    │
-│ 🎯 Top Referrers (Multi-select)                   │
-└─────────────────────────────────────────────────────┘
-
-<strong>Email List Management:</strong>
-• Subscriber growth tracking
-• Segmentation by interests
-• Campaign performance
-• Unsubscribe analysis
-• A/B test results
-
-<strong>Advanced Analytics:</strong>
-• Reader journey mapping
-• Content preference analysis
-• Optimal posting times
-• Platform performance comparison
-• ROI per audience segment
-
-<strong>Implementation Steps:</strong>
-1. Create persona profiles for your top 3 reader types
-2. Set up engagement tracking for last 10 posts
-3. Connect email marketing data
-4. Build audience insights dashboard
-                `,
-                
-                'analytics-dashboard': `
-<h4>📊 Analytics Dashboard Template</h4>
-
-<strong>Key Metrics Database:</strong>
-┌─────────────────────────────────────────────────────┐
-│ 📅 Date (Date)                                     │
-│ 👀 Total Views (Number)                           │
-│ 👤 Unique Visitors (Number)                       │
-│ 📱 Sessions (Number)                              │
-│ ⏱️ Avg Session Duration (Number)                   │
-│ 📈 Bounce Rate (Number)                           │
-│ 💰 Revenue (Number)                               │
-│ 📧 Email Signups (Number)                         │
-│ 📱 Social Followers (Number)                      │
-│ 📊 Conversion Rate (Formula)                      │
-└─────────────────────────────────────────────────────┘
-
-<strong>Content Performance Tracker:</strong>
-• Top performing posts by views
-• Revenue attribution by content
-• Social media engagement rates
-• Email click-through rates
-• SEO ranking improvements
-
-<strong>Growth Metrics:</strong>
-┌─────────────────────────────────────────────────────┐
-│ Month-over-month growth rates                       │
-│ Year-over-year comparisons                         │
-│ Traffic source analysis                            │
-│ Audience demographic shifts                        │
-│ Revenue stream performance                         │
-└─────────────────────────────────────────────────────┘
-
-<strong>Goal Tracking System:</strong>
-• Monthly traffic targets
-• Revenue milestones
-• Email list growth goals
-• Social media benchmarks
-• Content publication quotas
-
-<strong>Automated Reports:</strong>
-• Weekly performance summary
-• Monthly growth analysis
-• Quarterly business review
-• Annual planning data
-• Real-time dashboard updates
-
-<strong>Setup Instructions:</strong>
-1. Connect Google Analytics API
-2. Link social media accounts
-3. Integrate email marketing platform
-4. Set up automated data imports
-5. Create custom dashboard views
-                `,
-                
-                'publishing-workflow': `
-<h4>🚀 Publishing Workflow Template</h4>
-
-<strong>Content Production Pipeline:</strong>
-
-<strong>Stage 1: Ideation & Research</strong>
-┌─────────────────────────────────────────────────────┐
-│ 💡 Idea Source (Select)                           │
-│ 🔍 Keyword Research (Checklist)                   │
-│ 🎯 Target Audience (Relation)                     │
-│ 📊 Competition Analysis (Rich Text)               │
-│ 📝 Outline Status (Checkbox)                      │
-│ ⏱️ Research Time Logged (Number)                   │
-└─────────────────────────────────────────────────────┘
-
-<strong>Stage 2: Content Creation</strong>
-┌─────────────────────────────────────────────────────┐
-│ ✍️ First Draft (Date)                             │
-│ 📝 Word Count (Number)                            │
-│ 🎨 Graphics Needed (Multi-select)                 │
-│ 📷 Images Required (Number)                       │
-│ 🔗 Internal Links (Number)                        │
-│ 📚 Sources Cited (Number)                         │
-└─────────────────────────────────────────────────────┘
-
-<strong>Stage 3: Review & Optimization</strong>
-┌─────────────────────────────────────────────────────┐
-│ ✅ Grammar Check (Checkbox)                       │
-│ 🎯 SEO Optimization (Checkbox)                    │
-│ 📱 Mobile Formatting (Checkbox)                   │
-│ 🔍 Fact Check (Checkbox)                          │
-│ 👥 Peer Review (Person)                           │
-│ 📊 Readability Score (Number)                     │
-└─────────────────────────────────────────────────────┘
-
-<strong>Stage 4: Publishing & Promotion</strong>
-┌─────────────────────────────────────────────────────┐
-│ 🌐 Published URL (URL)                            │
-│ 📱 Social Media Posts (Checklist)                 │
-│ 📧 Email Newsletter (Checkbox)                    │
-│ 💬 Community Sharing (Checklist)                  │
-│ 📈 Analytics Setup (Checkbox)                     │
-│ 📅 Promotion Schedule (Date)                      │
-└─────────────────────────────────────────────────────┘
-
-<strong>Quality Control Checklists:</strong>
-
-SEO Checklist:
-□ Target keyword in title
-□ Meta description optimized
-□ Header tags (H1, H2, H3) used properly
-□ Internal links added
-□ Alt text for all images
-□ URL slug optimized
-
-Publishing Checklist:
-□ Content formatted for web
-□ Call-to-action included
-□ Social sharing buttons enabled
-□ Comments moderation set
-□ Analytics tracking active
-□ Mobile responsiveness tested
-
-<strong>Automation Triggers:</strong>
-• Auto-move to next stage when checklist complete
-• Generate social media content from headlines
-• Schedule email notifications to team
-• Create performance tracking entry
-• Update content calendar status
-
-<strong>Implementation Guide:</strong>
-1. Create master workflow database
-2. Set up stage-based automation
-3. Build quality control templates
-4. Test with sample content
-5. Train team on new process
-                `
-            };
-            
-            templateTitle.textContent = `📝 ${templateType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Preview`;
-            templatePreview.innerHTML = templates[templateType] || 'Template preview loading...';
-        }
-        
-        // Integration functionality
-        function showIntegrationGuide() {
-            const guide = `
-🔗 COMPLETE INTEGRATION ROADMAP
-
-PHASE 1 - TODAY (HIGH PRIORITY)
-==================================
-GitHub Integration Setup:
-1. Go to notion.com/my-integrations
-2. Create new integration: "Blog Content Hub"
-3. Copy integration token
-4. In your GitHub repo settings:
-   - Go to Settings → Webhooks
-   - Add webhook URL: your-notion-webhook-url
-   - Select "Push" and "Pull request" events
-5. Test with sample markdown file
-
-Benefits: Version control, backup, collaboration
-
-PHASE 2 - THIS WEEK
-==================================
-Canva Workflow Integration:
-1. Create "Design Assets" database in Notion
-2. Use Canva's share → Notion feature
-3. Set up design request workflow:
-   - Content needs design → Auto-create Canva task
-   - Design complete → Auto-update content status
-4. Organize brand assets library
-
-Benefits: Streamlined visual content creation
-
-PHASE 3 - NEXT WEEK  
-==================================
-AI API Integration:
-1. Get API keys from OpenAI/Anthropic
-2. Use Zapier/Make to connect:
-   - New content idea → AI generates outline
-   - Draft complete → AI suggests social posts
-   - Published post → AI creates newsletter summary
-3. Set up AI content quality scoring
-
-Benefits: Automated content generation and optimization
-
-PHASE 4 - MONTH 1
-==================================
-Excel/Analytics Integration:
-1. Export Google Analytics to Excel
-2. Use Power Query to connect Excel → Notion
-3. Automate weekly analytics reports
-4. Create performance dashboards
-
-Benefits: Data-driven content decisions
-
-PHASE 5 - MONTH 2
-==================================
-Multimedia Content Integration:
-1. CapCut: Create video content database
-2. ElevenLabs: Set up audio generation workflows  
-3. Epidemic Sound: Organize music library
-4. Build multimedia content calendar
-
-Benefits: Streamlined multimedia content production
-
-📋 TODAY'S ACTION PLAN:
-1. Set up GitHub integration (30 mins)
-2. Create basic content database (20 mins)
-3. Plan Canva workflow structure (10 mins)
-4. Test GitHub sync with sample content (15 mins)
-
-Total time investment today: 75 minutes
-Expected productivity gain: 5+ hours per week
-        }
-        
-        function startIntegrationChallenge() {
-            const challengeWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes');
-            challengeWindow.document.write(`
-                <html>
-                <head>
-                    <title>Integration Challenge - Build Your Content Hub</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-                        .challenge-container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
-                        .step { background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #667eea; }
-                        .timer { font-size: 24px; text-align: center; margin: 20px 0; color: #667eea; font-weight: bold; }
-                        .checklist { list-style: none; padding: 0; }
-                        .checklist li { padding: 8px 0; }
-                        .checklist input[type="checkbox"] { margin-right: 10px; transform: scale(1.2); }
-                        .btn { background: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
-                        .btn:hover { background: #5a67d8; }
-                        .progress-bar { width: 100%; height: 10px; background: #e9ecef; border-radius: 5px; margin: 20px 0; }
-                        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 5px; width: 0%; transition: width 0.5s; }
-                    </style>
-                </head>
-                <body>
-                    <div class="challenge-container">
-                        <h1>🎯 Integration Challenge: Build Your Content Hub</h1>
-                        <div class="timer" id="timer">Time Remaining: 90:00</div>
-                        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-                        
-                        <div class="step">
-                            <h3>Step 1: Create Your Blog Command Center (15 mins)</h3>
-                            <ul class="checklist">
-                                <li><input type="checkbox" onchange="updateProgress()"> Create new Notion page: "Blog Command Center"</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Add cover image and icon</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create page structure:
-                                    <ul style="margin-left: 30px; margin-top: 10px;">
-                                        <li>📝 Content Pipeline</li>
-                                        <li>👥 Audience Insights</li>
-                                        <li>📊 Analytics Dashboard</li>
-                                        <li>🔧 Tools & Resources</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <h3>Step 2: Build Content Database (25 mins)</h3>
-                            <ul class="checklist">
-                                <li><input type="checkbox" onchange="updateProgress()"> Create "Content Pipeline" database</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Add properties:
-                                    <ul style="margin-left: 30px; margin-top: 10px;">
-                                        <li>Title, Status, Publish Date, Category</li>
-                                        <li>Author, Priority, Keywords, Performance</li>
-                                    </ul>
-                                </li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create views: Table, Calendar, Board, Gallery</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Add 5 sample blog post entries</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Set up filters for "This Week" and "In Progress"</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <h3>Step 3: GitHub Integration Setup (30 mins)</h3>
-                            <ul class="checklist">
-                                <li><input type="checkbox" onchange="updateProgress()"> Go to Settings → Connections in Notion</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create GitHub integration</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Connect your GitHub repository</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create "Content Versions" database</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Test sync with sample markdown file</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Document GitHub workflow in your hub</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <h3>Step 4: Canva Workflow Preparation (15 mins)</h3>
-                            <ul class="checklist">
-                                <li><input type="checkbox" onchange="updateProgress()"> Create "Design Assets" database</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Add properties: Title, Type, Status, Content Link, Designer</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create design request template</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Link design database to content pipeline</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <h3>Step 5: Test & Optimize (5 mins)</h3>
-                            <ul class="checklist">
-                                <li><input type="checkbox" onchange="updateProgress()"> Test navigation between all sections</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Verify database connections work</li>
-                                <li><input type="checkbox" onchange="updateProgress()"> Create bookmark for easy access</li>
-                            </ul>
-                        </div>
-                        
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button class="btn" onclick="window.close()">Complete Challenge</button>
-                            <button class="btn" onclick="resetChallenge()" style="background: #6c757d;">Reset Progress</button>
-                        </div>
-                        
-                        <div id="completion-message" style="display: none; text-align: center; background: #d4edda; padding: 20px; border-radius: 8px; margin-top: 20px;">
-                            <h3>🎉 Challenge Complete!</h3>
-                            <p>Congratulations! You've built your Content Hub. You're now ready for advanced integrations.</p>
-                        </div>
-                    </div>
-                    
-                    <script>
-                        let startTime = Date.now();
-                        let totalTime = 90 * 60 * 1000; // 90 minutes in milliseconds
-                        
-                        function updateTimer() {
-                            let elapsed = Date.now() - startTime;
-                            let remaining = Math.max(0, totalTime - elapsed);
-                            let minutes = Math.floor(remaining / 60000);
-                            let seconds = Math.floor((remaining % 60000) / 1000);
-                            document.getElementById('timer').textContent = 
-                                \`Time Remaining: \${minutes.toString().padStart(2, '0')}:\${seconds.toString().padStart(2, '0')}\`;
-                            
-                            if (remaining > 0) {
-                                setTimeout(updateTimer, 1000);
-                            } else {
-                                document.getElementById('timer').textContent = "Time's Up!";
-                                document.getElementById('timer').style.color = '#dc3545';
-                            }
-                        }
-                        
-                        function updateProgress() {
-                            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                            let checked = document.querySelectorAll('input[type="checkbox"]:checked');
-                            let progress = (checked.length / checkboxes.length) * 100;
-                            document.getElementById('progress').style.width = progress + '%';
-                            
-                            if (progress === 100) {
-                                document.getElementById('completion-message').style.display = 'block';
-                            }
-                        }
-                        
-                        function resetChallenge() {
-                            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-                            updateProgress();
-                            startTime = Date.now();
-                            document.getElementById('completion-message').style.display = 'none';
-                        }
-                        
-                        updateTimer();
-                    </script>
-                </body>
-                </html>
-            `);
-        }
-        
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize all interactive elements
-            initializeAssessment();
-            initializeEventListeners();
-            updateAssessmentProgress();
-            
-            console.log('Notion Mastery System fully loaded and interactive!');
-        });
-        
-        function updateAssessmentProgress() {
-            const currentQuestionNum = currentQuestion + 1;
-            const progress = (currentQuestionNum / totalQuestions) * 100;
-            const progressBar = document.getElementById('assessmentProgress');
-            if (progressBar) {
-                progressBar.style.width = progress + '%';
-            }
-        }
-        
-        function initializeEventListeners() {
-            // Tab switching functionality
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const targetTab = this.dataset.tab;
-                    switchTab(targetTab);
-                });
-            });
-            
-            // Learning modules functionality
-            document.querySelectorAll('[data-module]').forEach(module => {
-                module.addEventListener('click', function() {
-                    const moduleType = this.dataset.module;
-                    loadLearningModule(moduleType);
-                    this.classList.add('completed');
-                });
+            console.log('Results calculated:', {
+                score: userScore,
+                percentage: percentage,
+                answers: answers
             });
         }
         
-        // Export functionality for GitHub integration
-        function exportProgress() {
-            const progressData = {
-                currentQuestion: currentQuestion,
-                assessmentAnswers: assessmentAnswers,
-                completedModules: document.querySelectorAll('.module.completed').length,
-                timestamp: new Date().toISOString()
-            };
-            
-            const dataStr = JSON.stringify(progressData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'notion-mastery-progress.json';
-            link.click();
-            
-            URL.revokeObjectURL(url);
-        }
-        
-        // Add export button to the interface
-        function addExportButton() {
-            const exportBtn = document.createElement('button');
-            exportBtn.className = 'btn btn-secondary';
-            exportBtn.textContent = '💾 Export Progress';
-            exportBtn.onclick = exportProgress;
-            exportBtn.style.position = 'fixed';
-            exportBtn.style.bottom = '20px';
-            exportBtn.style.right = '20px';
-            exportBtn.style.zIndex = '1000';
-            document.body.appendChild(exportBtn);
-        }
-        
-        // Initialize export functionality
-        setTimeout(addExportButton, 1000);
+        // Initialize
+        console.log('Notion Assessment loaded successfully!');
     </script>
 </body>
 </html>
